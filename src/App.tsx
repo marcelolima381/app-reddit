@@ -1,9 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ReactElement } from 'react';
+import { Container } from 'react-bootstrap';
 
-const App = (): JSX.Element => (
-  <div>
-    <h1>teste</h1>
-  </div>
+import ThreadHeader from './components/header';
+
+const App = (): ReactElement => (
+  <Container className="thread-background" fluid>
+    <ThreadHeader />
+  </Container>
 );
 
 export default App;
