@@ -7,8 +7,6 @@ import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './styles.css';
-
 type IThread = {
   showCommentsInfo: boolean;
 };
@@ -23,7 +21,7 @@ function Thread({ showCommentsInfo }: IThread): ReactElement {
   useEffect(() => setThread({ id: 155 }), []);
 
   return (
-    <Card className="thread m-auto my-4">
+    <Card className="my-4">
       <Card.Body className="d-flex flex-row px-0">
         <Col
           className="d-flex flex-column align-items-center justify-content-start gap-2"

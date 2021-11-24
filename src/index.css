@@ -15,3 +15,12 @@ code {
 .clickable:hover {
   cursor: pointer
 }
+
+.thread-background {
+  background-color: #dae0e6;
+}
+
+.thread {
+  max-width: 984px;
+}
+

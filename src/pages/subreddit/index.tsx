@@ -8,7 +8,9 @@ function Subreddit(): ReactElement {
   return (
     <Container className="thread-background px-0" fluid>
       <SubredditHeader />
-      <Thread showCommentsInfo />
+      <div className="thread m-auto">
+        <Thread showCommentsInfo />
+      </div>
     </Container>
   );
 }
