@@ -17,7 +17,7 @@
 
 [Marcelo Lima](https://github.com/marcelolima381)
 
-## Techs
+## Stack de tecnologia
 
 - [x] React
 - [x] React Bootstrap
