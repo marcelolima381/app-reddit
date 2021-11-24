@@ -1,6 +1,8 @@
 import { ReactElement } from 'react';
 import { Image } from 'react-bootstrap';
 
+import Vote from '../vote';
+
 function Comment(): ReactElement {
   return (
     <div className="comment">
@@ -12,13 +14,14 @@ function Comment(): ReactElement {
       />
       <div className="d-flex flex-column">
         <p className="fs-6 fw-light">Anonymous user · 13:00</p>
-        <text>
+        <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. A architecto
           at consequatur cum, debitis dolores ducimus est, hic illum, minus
           nesciunt optio quod similique vel velit? Accusantium necessitatibus
           porro suscipit?
-        </text>
+        </p>
       </div>
+      <Vote direction="horizontal" />
     </div>
   );
 }

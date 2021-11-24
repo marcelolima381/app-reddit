@@ -3,16 +3,15 @@ import { Card, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import { faCommentAlt } from '@fortawesome/free-regular-svg-icons';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import Vote from '../vote';
 
 type IThread = {
   showCommentsInfo: boolean;
 };
 
 function Thread({ showCommentsInfo }: IThread): ReactElement {
-  const [counter, setCounter] = useState<number>(453);
   const [thread, setThread] = useState({
     id: 155,
   });
@@ -23,21 +22,8 @@ function Thread({ showCommentsInfo }: IThread): ReactElement {
   return (
     <Card className="my-4">
       <Card.Body className="d-flex flex-row px-0">
-        <Col
-          className="d-flex flex-column align-items-center justify-content-start gap-2"
-          xs={1}
-        >
-          <FontAwesomeIcon
-            className="clickable"
-            icon={faArrowUp}
-            onClick={() => setCounter((prevState) => prevState + 1)}
-          />
-          <span className="fw-bold">{counter}</span>
-          <FontAwesomeIcon
-            className="clickable"
-            icon={faArrowDown}
-            onClick={() => setCounter((prevState) => prevState - 1)}
-          />
+        <Col xs={1}>
+          <Vote direction="vertical" />
         </Col>
         <Col xs={11}>
           <div>
