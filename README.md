@@ -30,7 +30,7 @@
 - [x] React-query
 - [x] React hook form
 
-## Starting Development environment
+## Iniciando ambiente de desenvolvimento
 
 1. Execute `npm run start`.<br /> 
 2. Abra http://localhost:3000/
