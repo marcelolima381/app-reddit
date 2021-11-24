@@ -1,5 +1,6 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { Card, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 import { faCommentAlt } from '@fortawesome/free-regular-svg-icons';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
@@ -8,7 +9,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './styles.css';
 
-function Thread(): ReactElement {
+type IThread = {
+  showCommentsInfo: boolean;
+};
+
+function Thread({ showCommentsInfo }: IThread): ReactElement {
+  const [counter, setCounter] = useState<number>(453);
+  const [thread, setThread] = useState({
+    id: 155,
+  });
+  const navigate = useNavigate();
+
+  useEffect(() => setThread({ id: 155 }), []);
+
   return (
     <Card className="thread m-auto my-4">
       <Card.Body className="d-flex flex-row px-0">
@@ -16,9 +29,17 @@ function Thread(): ReactElement {
           className="d-flex flex-column align-items-center justify-content-start gap-2"
           xs={1}
         >
-          <FontAwesomeIcon icon={faArrowUp} />
-          <span>453</span>
-          <FontAwesomeIcon icon={faArrowDown} />
+          <FontAwesomeIcon
+            className="clickable"
+            icon={faArrowUp}
+            onClick={() => setCounter((prevState) => prevState + 1)}
+          />
+          <span className="fw-bold">{counter}</span>
+          <FontAwesomeIcon
+            className="clickable"
+            icon={faArrowDown}
+            onClick={() => setCounter((prevState) => prevState - 1)}
+          />
         </Col>
         <Col xs={11}>
           <div>
@@ -31,10 +52,20 @@ function Thread(): ReactElement {
               praesentium provident quisquam!
             </text>
           </div>
-          <div className="d-flex mt-2 gap-2 align-items-center">
-            <FontAwesomeIcon icon={faCommentAlt} />
-            <span>2 comments</span>
-          </div>
+          {showCommentsInfo ? (
+            <div className="d-flex mt-2 gap-2 align-items-center">
+              <FontAwesomeIcon icon={faCommentAlt} />
+              <span
+                aria-hidden="true"
+                className="clickable"
+                onClick={() => navigate(`/thread/${thread.id}`)}
+                role="link"
+                tabIndex={0}
+              >
+                2 comments
+              </span>
+            </div>
+          ) : null}
         </Col>
       </Card.Body>
     </Card>

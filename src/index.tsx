@@ -2,12 +2,12 @@ import { StrictMode } from 'react';
 import { render } from 'react-dom';
 
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import AppRouter from './router';
 
 render(
   <StrictMode>
-    <App />
+    <AppRouter />
   </StrictMode>,
   document.getElementById('root')
 );
