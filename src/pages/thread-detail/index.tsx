@@ -61,7 +61,11 @@ function ThreadDetail(): ReactElement {
       <Container className="thread">
         <Row>
           <Col xs={12}>
-            <Thread showCommentsInfo={false} thread={queryThread.data} />
+            <Thread
+              canDeleteThread={false}
+              showCommentsInfo={false}
+              thread={queryThread.data}
+            />
           </Col>
         </Row>
         <Row>
@@ -96,7 +100,7 @@ function ThreadDetail(): ReactElement {
                       as="textarea"
                       placeholder="Comment here"
                       rows={3}
-                      type="text"
+                      type="tmapsext"
                       {...register('comment', { required: true })}
                     />
                     {errors.comment && (

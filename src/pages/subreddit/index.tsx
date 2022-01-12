@@ -37,20 +37,23 @@ function Subreddit(): ReactElement {
     RedditService.getThreads()
   );
   const onSubmit: SubmitHandler<Inputs> = (newThreadForm) => {
-    queryClient.setQueryData<IThread[]>(Identifiers.GET_THREADS, (oldData: IThread[] | undefined): IThread[] => {
-      if (queryThreads && oldData) {
-        oldData.push({
-          id: Math.random(),
-          author: MOCK_THREAD.author,
-          title: newThreadForm.title,
-          content: newThreadForm.content,
-          upvotes: 0,
-          comments: []
-        });
-      }
+    queryClient.setQueryData<IThread[]>(
+      Identifiers.GET_THREADS,
+      (oldData: IThread[] | undefined): IThread[] => {
+        if (queryThreads && oldData) {
+          oldData.push({
+            id: Math.random(),
+            author: MOCK_THREAD.author,
+            title: newThreadForm.title,
+            content: newThreadForm.content,
+            upvotes: 0,
+            comments: [],
+          });
+        }
 
-      return oldData as IThread[];
-    });
+        return oldData as IThread[];
+      }
+    );
   };
 
   if (querySubreddit.isLoading || queryThreads.isLoading) {
@@ -67,9 +70,20 @@ function Subreddit(): ReactElement {
       <Container className="thread-background px-0" fluid>
         <SubredditHeader querySubreddit={querySubreddit} />
         <div className="thread m-auto">
-          {queryThreads.data.map((thread: IThread) => (
-            <Thread key={thread.id} showCommentsInfo thread={thread} />
-          ))}
+          {queryThreads.data.length === 0 ? (
+            <Card>
+              <Card.Body>No threads found</Card.Body>
+            </Card>
+          ) : (
+            queryThreads.data.map((thread: IThread) => (
+              <Thread
+                canDeleteThread
+                key={thread.id}
+                showCommentsInfo
+                thread={thread}
+              />
+            ))
+          )}
         </div>
         <div className="thread m-auto">
           <h3>New thread</h3>
