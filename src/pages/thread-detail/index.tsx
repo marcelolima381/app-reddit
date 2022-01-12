@@ -1,24 +1,60 @@
 import { Fragment, ReactElement } from 'react';
-import { Card, Col, Container, Row, Spinner } from 'react-bootstrap';
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
+import { Updater } from 'react-query/types/core/utils';
 
 import { Identifiers, RedditService } from '../../common/services';
-import { IComment } from '../../common/types';
+import { IComment, IThread } from '../../common/types';
 import Comment from '../../components/comment';
 import RequestError from '../../components/request-error';
 import Thread from '../../components/thread';
 
+type Inputs = {
+  comment: string;
+};
+
 function ThreadDetail(): ReactElement {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
   const queryClient = useQueryClient();
   const queryThread = useQuery(Identifiers.GET_THREAD, () =>
     RedditService.getThread()
   );
+  const querySucessStatus = queryThread.isSuccess && queryThread.isFetched;
+  const onSubmit: SubmitHandler<Inputs> = (newCommentForm) => {
+    queryClient.setQueryData<IThread>(Identifiers.GET_THREAD, (oldData: IThread | undefined): IThread => {
+      if (querySucessStatus && oldData) {
+        oldData.comments.push({
+          id: Math.random(),
+          author: queryThread.data.author,
+          imageUrl:
+            'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png',
+          content: newCommentForm.comment,
+          upvotes: 0,
+        });
+      }
+
+      return oldData as IThread;
+    });
+  };
 
   if (queryThread.isLoading) {
     return <Spinner animation="border" />;
   }
 
-  if (queryThread.isSuccess && queryThread.isFetched) {
+  if (querySucessStatus) {
     return (
       <Container className="thread">
         <Row>
@@ -36,6 +72,35 @@ function ThreadDetail(): ReactElement {
                     <hr />
                   </Fragment>
                 ))}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="d-flex flex-row gap-2" xs={12}>
+            <Card className="w-100">
+              <Card.Body>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form.Group className="mb-3" controlId="comment">
+                    <Form.Label>New comment</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Comment here"
+                      rows={3}
+                      type="text"
+                      {...register('comment', { required: true })}
+                    />
+                    {errors.comment && (
+                      <Form.Text id="passwordHelpBlock" muted>
+                        The comment field is empty. Please fill it to be able to
+                        submit.
+                      </Form.Text>
+                    )}
+                  </Form.Group>
+                  <Button type="submit" variant="primary">
+                    Submit
+                  </Button>
+                </Form>
               </Card.Body>
             </Card>
           </Col>
