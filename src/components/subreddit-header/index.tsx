@@ -1,8 +1,15 @@
 import { ReactElement } from 'react';
-import { Button, Col, Image, Row } from 'react-bootstrap';
+import { Col, Image, Row } from 'react-bootstrap';
 import './style.css';
+import { UseQueryResult } from 'react-query';
 
-function ThreadHeader(): ReactElement {
+import { ISubreddit } from '../../common/types';
+
+function ThreadHeader(props: {
+  querySubreddit: UseQueryResult<ISubreddit>;
+}): ReactElement {
+  const { querySubreddit } = props;
+
   return (
     <Row className="thread-header py-2 m-auto mt-5">
       <Col
@@ -13,21 +20,14 @@ function ThreadHeader(): ReactElement {
           <Image
             height={72}
             roundedCircle
-            src="https://styles.redditmedia.com/t5_2mz580/styles/communityIcon_91qyk88t3y051.jpg?width=256&format=pjpg&s=296a830c026568cc5204a3bdd9ebd147be1cb3cf"
+            src={querySubreddit.data?.imageUrl}
             width={72}
           />
         </div>
         <div>
-          <h2>smurfdomuca</h2>
-          <span>r/smurfdomuca</span>
+          <h2>{querySubreddit.data?.name}</h2>
+          <span>{querySubreddit.data?.tag}</span>
         </div>
-        <Button
-          className="align-self-start fw-bold rounded-pill"
-          color="primary"
-          style={{ minWidth: '80px' }}
-        >
-          Join
-        </Button>
       </Col>
     </Row>
   );
