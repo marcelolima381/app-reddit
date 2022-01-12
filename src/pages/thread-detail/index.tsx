@@ -10,7 +10,6 @@ import {
 } from 'react-bootstrap';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
-import { Updater } from 'react-query/types/core/utils';
 
 import { Identifiers, RedditService } from '../../common/services';
 import { IComment, IThread } from '../../common/types';
@@ -34,20 +33,23 @@ function ThreadDetail(): ReactElement {
   );
   const querySucessStatus = queryThread.isSuccess && queryThread.isFetched;
   const onSubmit: SubmitHandler<Inputs> = (newCommentForm) => {
-    queryClient.setQueryData<IThread>(Identifiers.GET_THREAD, (oldData: IThread | undefined): IThread => {
-      if (querySucessStatus && oldData) {
-        oldData.comments.push({
-          id: Math.random(),
-          author: queryThread.data.author,
-          imageUrl:
-            'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png',
-          content: newCommentForm.comment,
-          upvotes: 0,
-        });
-      }
+    queryClient.setQueryData<IThread>(
+      Identifiers.GET_THREAD,
+      (oldData: IThread | undefined): IThread => {
+        if (querySucessStatus && oldData) {
+          oldData.comments.push({
+            id: Math.random(),
+            author: queryThread.data.author,
+            imageUrl:
+              'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png',
+            content: newCommentForm.comment,
+            upvotes: 0,
+          });
+        }
 
-      return oldData as IThread;
-    });
+        return oldData as IThread;
+      }
+    );
   };
 
   if (queryThread.isLoading) {
@@ -66,12 +68,19 @@ function ThreadDetail(): ReactElement {
           <Col className="d-flex flex-row gap-2" xs={12}>
             <Card>
               <Card.Body>
-                {queryThread.data.comments.map((comment: IComment) => (
-                  <Fragment key={comment.id}>
-                    <Comment comment={comment} key={comment.id} />
-                    <hr />
-                  </Fragment>
-                ))}
+                {querySucessStatus &&
+                queryThread.data?.comments.length === 0 ? (
+                  <Card>
+                    <Card.Body>No comments found</Card.Body>
+                  </Card>
+                ) : (
+                  queryThread.data.comments.map((comment: IComment) => (
+                    <Fragment key={comment.id}>
+                      <Comment comment={comment} key={comment.id} />
+                      <hr />
+                    </Fragment>
+                  ))
+                )}
               </Card.Body>
             </Card>
           </Col>
