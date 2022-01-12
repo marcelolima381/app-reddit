@@ -2,17 +2,15 @@ import { ReactElement } from 'react';
 import {
   Button,
   Card,
-  Col,
   Container,
   Form,
-  Row,
   Spinner,
 } from 'react-bootstrap';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { Identifiers, RedditService } from '../../common/services';
-import { ISubreddit, IThread } from '../../common/types';
+import { IThread } from '../../common/types';
 import RequestError from '../../components/request-error';
 import SubredditHeader from '../../components/subreddit-header';
 import Thread from '../../components/thread';
